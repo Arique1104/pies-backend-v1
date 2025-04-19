@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
       resources :organizations, only: [:create, :index, :show]
       resources :memberships, only: [:create]
+      resources :reflection_tips, only: [:index, :create, :destroy]
     end
   end
 end
