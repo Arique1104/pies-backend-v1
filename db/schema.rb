@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_030926) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_19_033232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "dismissed_keywords", force: :cascade do |t|
+    t.string "word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "category"
+    t.index ["word", "category"], name: "index_dismissed_keywords_on_word_and_category", unique: true
+    t.index ["word"], name: "index_dismissed_keywords_on_word", unique: true
+  end
 
   create_table "event_hosts", force: :cascade do |t|
     t.bigint "event_id", null: false
@@ -68,6 +77,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_030926) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_pies_entries_on_event_id"
     t.index ["user_id"], name: "index_pies_entries_on_user_id"
+  end
+
+  create_table "unmatched_keywords", force: :cascade do |t|
+    t.string "word"
+    t.string "category"
+    t.integer "count"
+    t.text "example"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
