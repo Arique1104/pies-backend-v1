@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_025303) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_19_030926) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "event_hosts", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "membership_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_hosts_on_event_id"
+    t.index ["membership_id"], name: "index_event_hosts_on_membership_id"
+  end
 
   create_table "events", force: :cascade do |t|
     t.bigint "organization_id", null: false
@@ -43,6 +52,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_025303) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pies_entries", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.integer "physical"
+    t.text "physical_description"
+    t.integer "intellectual"
+    t.text "intellectual_description"
+    t.integer "emotional"
+    t.text "emotional_description"
+    t.integer "spiritual"
+    t.text "spiritual_description"
+    t.date "checked_in_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_pies_entries_on_event_id"
+    t.index ["user_id"], name: "index_pies_entries_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -51,8 +78,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_025303) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "event_hosts", "events"
+  add_foreign_key "event_hosts", "memberships"
   add_foreign_key "events", "memberships", column: "created_by_membership_id"
   add_foreign_key "events", "organizations"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
+  add_foreign_key "pies_entries", "events"
+  add_foreign_key "pies_entries", "users"
 end
