@@ -7,19 +7,47 @@ class Api::V1::PiesEntriesController < ApplicationController
         render json: entries
       end
 
-      def create
-        entry = @user.pies_entries.new(pies_entry_params)
-        if entry.save
-          render json: entry, status: :created
+    def create
+    pies_entry = @user.pies_entries.new(pies_entry_params)
+        if pies_entry.save
+            render json: pies_entry, status: :created
         else
-          render json: { errors: entry.errors.full_messages }, status: :unprocessable_entity
+            render json: { errors: pies_entry.errors.full_messages }, status: :unprocessable_entity
         end
-      end
+    end
 
+  def latest
+    entries = @user.pies_entries.order(created_at: :desc)
+
+    today = Date.current
+    today_entry = entries.find { |entry| entry.created_at.to_date == today }
+
+    streak = 0
+    streaking = true
+    previous_day = today
+
+    entries.each do |entry|
+      entry_day = entry.created_at.to_date
+
+      if entry_day == previous_day
+        streak += 1
+        previous_day -= 1.day
+      else
+        streaking = false
+        break
+      end
+    end
+
+    render json: {
+      last_checkin: entries.first&.created_at&.to_date,
+      today_checked_in: today_entry.present?,
+      streak_count: streak,
+      recent_entries: entries.limit(5).as_json(only: [:id, :created_at, :physical, :intellectual, :emotional, :spiritual])
+    }
+  end
       private
 
       def set_user
-        # Ideally use current_user if auth is set up
         @user = User.find(params[:user_id])
       end
 
