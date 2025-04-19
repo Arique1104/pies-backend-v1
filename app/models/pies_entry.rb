@@ -4,13 +4,8 @@ class PiesEntry < ApplicationRecord
 
   validates :checked_in_on, presence: true
 
-  with_options numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }, allow_nil: true do
-    validates :physical
-    validates :intellectual
-    validates :emotional
-    validates :spiritual
-  end
-
+  validates :physical, :intellectual, :emotional, :spiritual, presence: true
+  
   after_save :detect_unmatched_keywords
 
   private
