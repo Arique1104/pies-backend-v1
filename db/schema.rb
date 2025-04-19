@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_033232) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_19_045459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_033232) do
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_pies_entries_on_event_id"
     t.index ["user_id"], name: "index_pies_entries_on_user_id"
+  end
+
+  create_table "reflection_tips", force: :cascade do |t|
+    t.string "keyword"
+    t.string "category"
+    t.text "tip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "unmatched_keywords", force: :cascade do |t|
