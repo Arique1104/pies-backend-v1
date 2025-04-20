@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_19_193314) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_20_002233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_193314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_events_on_organization_id"
+  end
+
+  create_table "favorite_tips", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "reflection_tip_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reflection_tip_id"], name: "index_favorite_tips_on_reflection_tip_id"
+    t.index ["user_id", "reflection_tip_id"], name: "index_favorite_tips_on_user_id_and_reflection_tip_id", unique: true
+    t.index ["user_id"], name: "index_favorite_tips_on_user_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -87,6 +97,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_193314) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tip_ratings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "reflection_tip_id", null: false
+    t.boolean "helpful"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reflection_tip_id"], name: "index_tip_ratings_on_reflection_tip_id"
+    t.index ["user_id"], name: "index_tip_ratings_on_user_id"
+  end
+
   create_table "unmatched_keywords", force: :cascade do |t|
     t.string "word"
     t.string "category"
@@ -108,8 +128,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_19_193314) do
   add_foreign_key "event_hosts", "memberships"
   add_foreign_key "events", "memberships", column: "created_by_membership_id"
   add_foreign_key "events", "organizations"
+  add_foreign_key "favorite_tips", "reflection_tips"
+  add_foreign_key "favorite_tips", "users"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
   add_foreign_key "pies_entries", "events"
   add_foreign_key "pies_entries", "users"
+  add_foreign_key "tip_ratings", "reflection_tips"
+  add_foreign_key "tip_ratings", "users"
 end
