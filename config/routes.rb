@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # 🔐 Authenticated user actions
-      resources :users, only: [:create], defaults: { format: :json } do
-        resources :pies_entries, only: [:index, :create] do
+      resources :users, only: [ :create ], defaults: { format: :json } do
+        resources :pies_entries, only: [ :index, :create ] do
           collection do
             get :latest
           end
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       end
 
       # 🔐 Authenticated routes for users (from token)
-      resources :reflection_tips, only: [:index] do
+      resources :reflection_tips, only: [ :index ] do
         member do
           post :rate
           post :favorite
@@ -30,10 +30,10 @@ Rails.application.routes.draw do
       get "/me", to: "sessions#show"
 
       # 🛠 Product owner controls for managing tips
-      resources :reflection_tips, only: [:create, :destroy, :update, :show]
+      resources :reflection_tips, only: [ :create, :destroy, :update, :show ]
 
-      resources :organizations, only: [:create, :index, :show]
-      resources :memberships, only: [:create]
+      resources :organizations, only: [ :create, :index, :show ]
+      resources :memberships, only: [ :create ]
     end
   end
 end

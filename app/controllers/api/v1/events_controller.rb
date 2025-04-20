@@ -1,10 +1,10 @@
 class Api::V1::EventsController < ApplicationController
       before_action :set_organization
-      before_action :set_event, only: [:show]
+      before_action :set_event, only: [ :show ]
 
       def index
         @events = @organization.events.includes(:host_memberships)
-        render json: @events.as_json(include: { host_memberships: { only: [:id, :role] } })
+        render json: @events.as_json(include: { host_memberships: { only: [ :id, :role ] } })
       end
 
       def show

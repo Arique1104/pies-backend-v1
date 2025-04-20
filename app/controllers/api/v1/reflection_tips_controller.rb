@@ -18,7 +18,7 @@ class Api::V1::ReflectionTipsController < ApplicationController
         tip.destroy
         head :no_content
       end
-    
+
       def rate
         tip = ReflectionTip.find(params[:id])
         rating = TipRating.find_or_initialize_by(user: current_user, reflection_tip: tip)
@@ -33,7 +33,7 @@ class Api::V1::ReflectionTipsController < ApplicationController
 
         head :ok
       end
-      
+
       def favorites
         tips = current_user.favorited_reflection_tips
         render json: tips

@@ -5,7 +5,7 @@ class PiesEntry < ApplicationRecord
   validates :checked_in_on, presence: true
 
   validates :physical, :intellectual, :emotional, :spiritual, presence: true
-  
+
   after_save :detect_unmatched_keywords
 
   private
