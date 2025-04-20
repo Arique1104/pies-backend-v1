@@ -23,5 +23,4 @@ class Api::V1::EventHostsController < ApplicationController
       def event_host_params
         params.require(:event_host).permit(:event_id, :membership_id)
       end
-    end
 end
