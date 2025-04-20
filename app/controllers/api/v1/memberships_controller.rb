@@ -1,4 +1,6 @@
 class Api::V1::MembershipsController < ApplicationController
+  before_action :authorize_manager_or_owner!, only [:create]
+
   def create
     membership = Membership.new(membership_params)
     if membership.save

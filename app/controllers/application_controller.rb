@@ -25,4 +25,10 @@ class ApplicationController < ActionController::API
   def authorize_user
     render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
   end
+
+    def authorize_manager_or_owner!
+    unless current_user&.role.in?(%w[manager owner])
+      render json: { error: "Unauthorized" }, status: :unauthorized
+    end
+  end
 end
