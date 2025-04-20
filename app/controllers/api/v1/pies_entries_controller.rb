@@ -1,5 +1,4 @@
 class Api::V1::PiesEntriesController < ApplicationController
-
       before_action :set_user
 
       def index
@@ -42,7 +41,7 @@ class Api::V1::PiesEntriesController < ApplicationController
       last_checkin: entries.first&.created_at&.to_date,
       today_checked_in: today_entry.present?,
       streak_count: streak,
-      recent_entries: entries.limit(5).as_json(only: [:id, :created_at, :physical, :intellectual, :emotional, :spiritual])
+      recent_entries: entries.limit(5).as_json(only: [ :id, :created_at, :physical, :intellectual, :emotional, :spiritual ])
     }
   end
       private
