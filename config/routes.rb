@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      # growth summary
+      get 'growth_summary', to: 'growth#summary'
+      
       # 🔐 Authenticated user actions
       resources :users, only: [ :create ], defaults: { format: :json } do
         resources :pies_entries, only: [ :index, :create ] do
