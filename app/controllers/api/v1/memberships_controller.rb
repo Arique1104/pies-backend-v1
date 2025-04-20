@@ -11,7 +11,7 @@
 #     unless current_user.memberships.exists?(organization_id: org.id, role: [ "manager", "owner" ])
 #       return render json: { error: "You do not have permission to add members to this organization" }, status: :unauthorized
 #     end
-    
+
 #     # step 3: proceed with create the membership for the specificed user
 #     membership = Membership.new(membership_params)
 #     if membership.save
