@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
-  get "/controller-alive", to: "api/v1/users#ping"
 
   namespace :api do
     namespace :v1 do

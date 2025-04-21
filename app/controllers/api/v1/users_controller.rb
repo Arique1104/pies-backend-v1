@@ -1,9 +1,6 @@
 class Api::V1::UsersController < ApplicationController
-    def ping
-        render json: { status: "UsersController is alive!" }
-    end
 
-    def create
+  def create
     user = User.new(user_params)
     if user.save
       token = JWT.encode({ user_id: user.id }, Rails.application.secret_key_base)
@@ -12,6 +9,8 @@ class Api::V1::UsersController < ApplicationController
       render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+
 
   private
 
