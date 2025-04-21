@@ -1,7 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-    def ping
-        render json: { status: "UsersController is alive!" }
-    end
 
     def create
     user = User.new(user_params)
