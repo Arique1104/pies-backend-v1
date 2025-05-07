@@ -33,9 +33,9 @@ Rails.application.routes.draw do
         resources :orgs, only: [ :index ]
         resources :memberships, only: [ :create ]
 
-        resources :keywords, only: [:index]
-        resources :insights, only: [:index]
-        resources :moneys, only: [:index]
+        resources :keywords, only: [ :index ]
+        resources :insights, only: [ :index ]
+        resources :moneys, only: [ :index ]
     end
   end
 end

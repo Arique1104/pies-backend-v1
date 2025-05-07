@@ -33,7 +33,7 @@ class ApplicationController < ActionController::API
 
   def authorize_owner!
     unless current_user&.super_user?
-      render json: { error: 'Unauthorized' }, status: :unauthorized
+      render json: { error: "Unauthorized" }, status: :unauthorized
     end
   end
 end
