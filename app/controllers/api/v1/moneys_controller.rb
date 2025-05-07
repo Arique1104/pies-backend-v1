@@ -1,4 +1,4 @@
-class API::V1::MoneysController < ApplicationController
+class Api::V1::MoneysController < ApplicationController
     before_action :authorize_owner!
 
     def index
