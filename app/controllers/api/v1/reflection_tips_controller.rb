@@ -1,6 +1,6 @@
 class Api::V1::ReflectionTipsController < ApplicationController
       def index
-        # This function should be scoped to match the user's reflection 
+          # This function should be scoped to match the user's reflection
           tips = ReflectionTip.all.order(:category, :keyword)
           render json: tips
       end
