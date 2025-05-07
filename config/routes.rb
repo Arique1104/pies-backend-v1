@@ -30,8 +30,12 @@ Rails.application.routes.draw do
         # 🛠 Product owner controls for managing tips
         resources :reflection_tips, only: [ :create, :destroy, :update, :show ]
 
-        resources :organizations, only: [ :create, :index, :show ]
+        resources :orgs, only: [ :index ]
         resources :memberships, only: [ :create ]
+
+        resources :keywords, only: [:index]
+        resources :insights, only: [:index]
+        resources :moneys, only: [:index]
     end
   end
 end
