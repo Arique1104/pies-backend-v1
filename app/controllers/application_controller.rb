@@ -18,7 +18,6 @@ class ApplicationController < ActionController::API
 
   def current_user
     return unless decoded_token
-
     @current_user ||= User.find_by(id: decoded_token["user_id"])
   end
 
@@ -26,9 +25,15 @@ class ApplicationController < ActionController::API
     render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
   end
 
-    def authorize_manager_or_owner!
+  def authorize_manager_or_owner!
     unless current_user&.role.in?(%w[manager owner])
       render json: { error: "Unauthorized" }, status: :unauthorized
+    end
+  end
+
+  def authorize_owner!
+    unless current_user&.super_user?
+      render json: { error: 'Unauthorized' }, status: :unauthorized
     end
   end
 end
