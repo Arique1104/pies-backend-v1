@@ -1,6 +1,6 @@
 class Api::V1::ReflectionTipsController < ApplicationController
   before_action :authorize_user
-  before_action :authorize_owner!, only: [:create,:update, :destroy]
+  before_action :authorize_owner!, only: [ :create, :update, :destroy ]
 
       def index
           # This function should be scoped to match the user's reflection
@@ -31,7 +31,7 @@ class Api::V1::ReflectionTipsController < ApplicationController
       tip = ReflectionTip.find(params[:id])
 
       ActiveRecord::Base.transaction do
-        DismissedKeyword.find_or_create_by!(word: tip.keyword, category: tip.category)
+        DismissedKeyword.find_or_create_by!(word: tip.keyword, category: tip.category, example: tip.example)
         tip.destroy!
       end
 
