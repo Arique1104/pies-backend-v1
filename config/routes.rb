@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       # 🔐 Auth
       post "/login", to: "sessions#create"
       get "/me", to: "sessions#show"
-      
+
       # 🔐 Authenticated User PIES Checkin Dashboard
       resources :users, only: [ :create ], defaults: { format: :json }
       resources :pies_entries, only: [ :index, :create ] do
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
           get :latest
         end
       end
-      resources :reflection_tips, only: [ :index, :create, :destroy, :update] do
+      resources :reflection_tips, only: [ :index, :create, :destroy, :update ] do
         member do
           post :rate
           post :favorite
@@ -31,14 +31,14 @@ Rails.application.routes.draw do
 
       # 🛠 Product Owner Dashboard Controllers
       # resources :reflection_tips, only: [ :create, :destroy, :update ]
-      resources :dismissed_keywords, only: [:index, :destroy, :create]
+      resources :dismissed_keywords, only: [ :index, :destroy, :create ]
       resources :unmatched_keywords, only: [ :index ]
-  
+
       resources :orgs, only: [ :index ]
-  
-  
+
+
       resources :insights, only: [ :index ]
-  
+
       resources :moneys, only: [ :index ]
     end
   end
