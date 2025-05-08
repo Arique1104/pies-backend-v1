@@ -23,19 +23,19 @@ Rails.application.routes.draw do
         end
       end
 
-        # 🔐 Auth
-        post "/login", to: "sessions#create"
-        get "/me", to: "sessions#show"
+      # 🔐 Auth
+      post "/login", to: "sessions#create"
+      get "/me", to: "sessions#show"
 
-        # 🛠 Product owner controls for managing tips
-        resources :reflection_tips, only: [ :create, :destroy, :update, :show ]
+      # 🛠 Product owner controls for managing tips
+      resources :reflection_tips, only: [ :index, :create, :destroy, :update ]
+      resources :dismissed_keywords, only: [:index, :destroy, :create]
+      resources :orgs, only: [ :index ]
+      resources :memberships, only: [ :create ]
 
-        resources :orgs, only: [ :index ]
-        resources :memberships, only: [ :create ]
-
-        resources :keywords, only: [ :index ]
-        resources :insights, only: [ :index ]
-        resources :moneys, only: [ :index ]
+      resources :unmatched_keywords, only: [ :index ]
+      resources :insights, only: [ :index ]
+      resources :moneys, only: [ :index ]
     end
   end
 end
