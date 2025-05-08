@@ -60,16 +60,18 @@ end
 
 
 [
-  { word: "meh", category: "emotional" },
-  { word: "tiredish", category: "physical" },
-  { word: "foggy", category: "intellectual" },
-  { word: "unmoved", category: "spiritual" },
-  { word: "overit", category: "emotional" },
-  { word: "zonedout", category: "intellectual" },
-  { word: "hungrish", category: "physical" },
-  { word: "apathetic", category: "emotional" },
-  { word: "whatever", category: "emotional" },
-  { word: "mehagain", category: "emotional" }
+  { word: "meh", category: "emotional", example: "I feel meh, like nothing really matters today." },
+  { word: "tiredish", category: "physical", example: "Not exhausted, but definitely tiredish after that walk." },
+  { word: "foggy", category: "intellectual", example: "My brain's just... foggy this morning." },
+  { word: "unmoved", category: "spiritual", example: "Everyone else was inspired, but I felt unmoved." },
+  { word: "overit", category: "emotional", example: "Honestly? I'm just over it." },
+  { word: "zonedout", category: "intellectual", example: "I totally zoned out during the meeting." },
+  { word: "hungrish", category: "physical", example: "Not starving, just kind of hungrish." },
+  { word: "apathetic", category: "emotional", example: "I know I should care, but I feel apathetic." },
+  { word: "whatever", category: "emotional", example: "My only response right now is whatever." },
+  { word: "mehagain", category: "emotional", example: "It’s that same meh feeling again today." }
 ].each do |attrs|
-  DismissedKeyword.find_or_create_by!(attrs)
+  DismissedKeyword.find_or_create_by!(word: attrs[:word], category: attrs[:category]) do |dk|
+    dk.example = attrs[:example]
+  end
 end
