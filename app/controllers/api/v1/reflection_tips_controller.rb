@@ -31,7 +31,7 @@ class Api::V1::ReflectionTipsController < ApplicationController
       tip = ReflectionTip.find(params[:id])
 
       ActiveRecord::Base.transaction do
-        DismissedKeyword.find_or_create_by!(word: tip.keyword, category: tip.category, example: tip.example)
+        DismissedKeyword.find_or_create_by!(word: tip.keyword, category: tip.category, example: tip.tip)
         tip.destroy!
       end
 
