@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_20_002233) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_08_175755) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,6 +19,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_20_002233) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "category"
+    t.text "example"
     t.index ["word", "category"], name: "index_dismissed_keywords_on_word_and_category", unique: true
     t.index ["word"], name: "index_dismissed_keywords_on_word", unique: true
   end
@@ -122,6 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_20_002233) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "super_user"
   end
 
   add_foreign_key "event_hosts", "events"

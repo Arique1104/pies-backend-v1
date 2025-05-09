@@ -1,42 +1,48 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
-  get "/controller-alive", to: "api/v1/users#ping"
 
   namespace :api do
     namespace :v1 do
       # growth summary
       get 'growth_summary', to: 'growth#summary'
       
-      # 🔐 Authenticated user actions
-      resources :users, only: [ :create ], defaults: { format: :json } do
-        resources :pies_entries, only: [ :index, :create ] do
-          collection do
-            get :latest
-          end
+      # 🔐 Auth
+      post "/login", to: "sessions#create"
+      get "/me", to: "sessions#show"
+
+      # 🔐 Authenticated User PIES Checkin Dashboard
+      resources :users, only: [ :create ], defaults: { format: :json }
+      resources :pies_entries, only: [ :index, :create ] do
+        collection do
+          get :latest
         end
       end
-
-      # 🔐 Authenticated routes for users (from token)
-      resources :reflection_tips, only: [ :index ] do
+      resources :reflection_tips, only: [ :index, :create, :destroy, :update ] do
         member do
           post :rate
           post :favorite
         end
 
         collection do
-          get :favorites  # Secure favorites list, based on current_user, not URL param
+          get :favorites
         end
       end
 
-      # 🔐 Auth
-      post "/login", to: "sessions#create"
-      get "/me", to: "sessions#show"
 
-      # 🛠 Product owner controls for managing tips
-      resources :reflection_tips, only: [ :create, :destroy, :update, :show ]
-
-      resources :organizations, only: [ :create, :index, :show ]
+      # Org Owner Dashboard Controllers
       resources :memberships, only: [ :create ]
+
+      # 🛠 Product Owner Dashboard Controllers
+      # resources :reflection_tips, only: [ :create, :destroy, :update ]
+      resources :dismissed_keywords, only: [ :index, :destroy, :create ]
+      resources :unmatched_keywords, only: [ :index ]
+
+      resources :orgs, only: [ :index ]
+
+
+      resources :insights, only: [ :index ]
+
+      resources :moneys, only: [ :index ]
     end
   end
 end

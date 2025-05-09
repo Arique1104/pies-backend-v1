@@ -1,22 +1,22 @@
 class Api::V1::PiesEntriesController < ApplicationController
-      before_action :set_user
+  before_action :current_user
 
-      def index
-        entries = @user.pies_entries.order(checked_in_on: :desc)
-        render json: entries
-      end
+  def index
+    entries = current_user.pies_entries.order(checked_in_on: :desc)
+    render json: entries
+  end
 
-    def create
-    pies_entry = @user.pies_entries.new(pies_entry_params)
-        if pies_entry.save
-            render json: pies_entry, status: :created
-        else
-            render json: { errors: pies_entry.errors.full_messages }, status: :unprocessable_entity
-        end
+  def create
+    pies_entry = current_user.pies_entries.new(pies_entry_params)
+    if pies_entry.save
+      render json: pies_entry, status: :created
+    else
+      render json: { errors: pies_entry.errors.full_messages }, status: :unprocessable_entity
     end
+  end
 
   def latest
-    entries = @user.pies_entries.order(created_at: :desc)
+    entries = current_user.pies_entries.order(created_at: :desc)
 
     today = Date.current
     today_entry = entries.find { |entry| entry.created_at.to_date == today }
@@ -46,9 +46,6 @@ class Api::V1::PiesEntriesController < ApplicationController
   end
       private
 
-      def set_user
-        @user = User.find(params[:user_id])
-      end
 
       def pies_entry_params
         params.require(:pies_entry).permit(
