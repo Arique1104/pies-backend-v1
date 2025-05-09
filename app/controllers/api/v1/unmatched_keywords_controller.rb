@@ -1,9 +1,9 @@
-class Api::V1::KeywordsController < ApplicationController
+class Api::V1::UnmatchedKeywordsController < ApplicationController
     before_action :authorize_owner!
 
     def index
         #  access all unmatched keywords
-        render json: { message: "Owner access to keywords confirmed." }
+        render json:  UnmatchedKeyword.all
     end
 
   # def dismiss_keyword
