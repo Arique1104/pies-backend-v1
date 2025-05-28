@@ -11,6 +11,21 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def edit_password
+    decoded = JsonWebToken.decode(params[:token])
+    @user = User.find(decoded[:user_id])
+  rescue
+    redirect_to root_path, alert: "Invalid or expired token"
+  end
+
+  def update_password
+    user = User.find(params[:user_id])
+    if user.update(password: params[:password], password_confirmation: params[:password_confirmation])
+      redirect_to root_path, notice: "Password set! You can now log in."
+    else
+      render :edit_password
+    end
+  end
   private
 
   def user_params
