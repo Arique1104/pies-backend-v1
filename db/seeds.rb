@@ -75,3 +75,62 @@ end
     dk.example = attrs[:example]
   end
 end
+
+
+org_data = [
+  { name: "People Power Alliance", description: "Grassroots coalition focused on civic engagement and justice reform." },
+  { name: "Future Voters United", description: "A youth-led movement building voter literacy and turnout campaigns." },
+  { name: "Equity Rising", description: "Nonprofit dedicated to economic justice and workforce accessibility." },
+  { name: "Green Commons Project", description: "Environmental education and sustainability hub for rural communities." },
+  { name: "Voices in Action", description: "Organizing BIPOC communities to reclaim political power." },
+  { name: "Community Roots Network", description: "A regional network of mutual aid and food sovereignty collectives." },
+  { name: "Trans Liberation Front", description: "Policy and advocacy platform centering trans futures." },
+  { name: "Civic Pulse Hub", description: "Open data and digital tools for democratizing community action." },
+  { name: "Justice Design Studio", description: "Design and narrative strategy org for liberation campaigns." },
+  { name: "Bridge the Divide", description: "Multi-faith organizing initiative focused on cross-cultural healing." }
+]
+
+org_data.each do |attrs|
+  Organization.find_or_create_by!(name: attrs[:name]) do |org|
+    org.description = attrs[:description]
+  end
+end
+
+puts "🌱 Seeding test users with roles..."
+
+org_data2 = [
+  "People Power Alliance",
+  "Future Voters United",
+  "Equity Rising",
+  "Green Commons Project",
+  "Voices in Action",
+  "Community Roots Network",
+  "Trans Liberation Front",
+  "Civic Pulse Hub",
+  "Justice Design Studio",
+  "Bridge the Divide"
+]
+
+role_credentials = {
+  "owner" => { email: "owner@example.com", password: "ownerpass" },
+  "manager" => { email: "manager@example.com", password: "managerpass" },
+  "member" => { email: "member@example.com", password: "memberpass" }
+}
+
+org_data2.each do |org_name|
+  org = Organization.find_by(name: org_name)
+  next unless org
+
+  role_credentials.each do |role, creds|
+    user = User.find_or_create_by!(email: creds[:email]) do |u|
+      u.name = role.capitalize
+      u.password = creds[:password]
+    end
+
+    Membership.find_or_create_by!(user: user, organization: org) do |m|
+      m.role = role
+    end
+  end
+end
+
+puts "✅ Seeded test users with roles across all organizations!"
