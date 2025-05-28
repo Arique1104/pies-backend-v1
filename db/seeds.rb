@@ -75,3 +75,23 @@ end
     dk.example = attrs[:example]
   end
 end
+
+
+org_data = [
+  { name: "People Power Alliance", description: "Grassroots coalition focused on civic engagement and justice reform." },
+  { name: "Future Voters United", description: "A youth-led movement building voter literacy and turnout campaigns." },
+  { name: "Equity Rising", description: "Nonprofit dedicated to economic justice and workforce accessibility." },
+  { name: "Green Commons Project", description: "Environmental education and sustainability hub for rural communities." },
+  { name: "Voices in Action", description: "Organizing BIPOC communities to reclaim political power." },
+  { name: "Community Roots Network", description: "A regional network of mutual aid and food sovereignty collectives." },
+  { name: "Trans Liberation Front", description: "Policy and advocacy platform centering trans futures." },
+  { name: "Civic Pulse Hub", description: "Open data and digital tools for democratizing community action." },
+  { name: "Justice Design Studio", description: "Design and narrative strategy org for liberation campaigns." },
+  { name: "Bridge the Divide", description: "Multi-faith organizing initiative focused on cross-cultural healing." }
+]
+
+org_data.each do |attrs|
+  Organization.find_or_create_by!(name: attrs[:name]) do |org|
+    org.description = attrs[:description]
+  end
+end
