@@ -3,7 +3,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      
       get "org_dashboards/show"
       # growth summary
       get "growth_summary", to: "growth#summary"

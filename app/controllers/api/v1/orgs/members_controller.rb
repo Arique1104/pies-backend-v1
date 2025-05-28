@@ -1,7 +1,7 @@
 class Api::V1::Orgs::MembersController < ApplicationController
   before_action :set_org_context!
 
-  # POST /orgs/members
+# POST /orgs/members
 def create
   members_params.each do |member_param|
     user = User.find_or_initialize_by(email: member_param[:email])
@@ -64,6 +64,6 @@ def create
   end
 
   def token_from_header
-    request.headers['Authorization']&.split(' ')&.last
+    request.headers["Authorization"]&.split(" ")&.last
   end
 end

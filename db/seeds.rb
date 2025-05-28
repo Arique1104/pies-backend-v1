@@ -95,3 +95,42 @@ org_data.each do |attrs|
     org.description = attrs[:description]
   end
 end
+
+puts "🌱 Seeding test users with roles..."
+
+org_data2 = [
+  "People Power Alliance",
+  "Future Voters United",
+  "Equity Rising",
+  "Green Commons Project",
+  "Voices in Action",
+  "Community Roots Network",
+  "Trans Liberation Front",
+  "Civic Pulse Hub",
+  "Justice Design Studio",
+  "Bridge the Divide"
+]
+
+role_credentials = {
+  "owner" => { email: "owner@example.com", password: "ownerpass" },
+  "manager" => { email: "manager@example.com", password: "managerpass" },
+  "member" => { email: "member@example.com", password: "memberpass" }
+}
+
+org_data2.each do |org_name|
+  org = Organization.find_by(name: org_name)
+  next unless org
+
+  role_credentials.each do |role, creds|
+    user = User.find_or_create_by!(email: creds[:email]) do |u|
+      u.name = role.capitalize
+      u.password = creds[:password]
+    end
+
+    Membership.find_or_create_by!(user: user, organization: org) do |m|
+      m.role = role
+    end
+  end
+end
+
+puts "✅ Seeded test users with roles across all organizations!"
