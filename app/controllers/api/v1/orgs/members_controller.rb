@@ -60,7 +60,7 @@ def create
   end
 
   def members_params
-    params.require(:members).map { |p| p.permit(:email, :role, :user_id) }
+    params.require(:members).map { |p| p.permit(:email, :role) }
   end
 
   def token_from_header
